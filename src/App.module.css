@@ -1,24 +1,12 @@
 .text {
+  font-size: 35px;
+  font-weight: 700;
   color: blueviolet;
+  margin: 0px;
+  margin-bottom: 26px;
 }
 
-.form {
-  display: flex;
-  flex-direction: column;
-
-  width: 300px;
-  height: 200px;
-  border: 1px solid red;
-}
-
-.tag {
-  margin: 15px;
-}
-
-.input {
-  margin: 20px;
-}
-
-.btn {
-  margin: 20px;
+.contacts {
+  margin: 0px;
+  margin-bottom: 20px;
 }

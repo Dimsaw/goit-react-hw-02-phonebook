@@ -22,22 +22,43 @@ class App extends Component {
       name,
       number,
     };
+
+    if (
+      this.state.contacts.find(
+        contact => contact.name.toLowerCase() === name.toLowerCase(),
+      )
+    ) {
+      return alert(`${name} is alredy in contacts`);
+    }
+
     this.setState(prevState => ({
       contacts: [newContact, ...prevState.contacts],
     }));
   };
 
-  deliteContact = id => {
-    this.setState(prevState => ({
-      contacts: prevState.contacts.filter(contact => contact.id !== id),
-    }));
-  };
   changeFilter = e => {
     this.setState({ filter: e.currentTarget.value });
   };
 
+  getVisibleContacts = () => {
+    const { filter, contacts } = this.state;
+    const normolizedFilter = filter.toLowerCase();
+
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(normolizedFilter),
+    );
+  };
+
+  deleteContact = id => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== id),
+    }));
+  };
+
   render() {
-    const { contacts, filter } = this.state;
+    const { filter } = this.state;
+    const visibleContact = this.getVisibleContacts();
+    const emptyContacts = this.state.contacts;
 
     return (
       <>
@@ -45,12 +66,15 @@ class App extends Component {
         <ContactForm onSubmit={this.formSubmitHandler} />
 
         <div>
-          <h3>Contacts</h3>
+          <h3 className={s.contacts}>Contacts</h3>
           <Filter value={filter} onChange={this.changeFilter} />
-          <ContactsList
-            contacts={contacts}
-            onDeleteContact={this.deliteContact}
-          />
+          {emptyContacts.length > 0 && (
+            <ContactsList
+              contacts={visibleContact}
+              onDeleteContact={this.deleteContact}
+            />
+          )}
+          {!emptyContacts.length && <h4>Phonebook is empty</h4>}
         </div>
       </>
     );
