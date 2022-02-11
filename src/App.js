@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ContactsList from './componets/ContactsList';
 import ContactForm from './componets/ContactForm';
 import Filter from './componets/Filter';
+import Container from './componets/Container';
 import s from './App.module.css';
 import shortid from 'shortid';
 
@@ -58,25 +59,26 @@ class App extends Component {
   render() {
     const { filter } = this.state;
     const visibleContact = this.getVisibleContacts();
-    const emptyContacts = this.state.contacts;
+    const emptyContacts = this.state.contacts.length;
 
     return (
-      <>
+      <Container>
         <h1 className={s.text}>Phonebook</h1>
         <ContactForm onSubmit={this.formSubmitHandler} />
 
         <div>
           <h3 className={s.contacts}>Contacts</h3>
           <Filter value={filter} onChange={this.changeFilter} />
-          {emptyContacts.length > 0 && (
+          {emptyContacts > 0 ? (
             <ContactsList
               contacts={visibleContact}
               onDeleteContact={this.deleteContact}
             />
+          ) : (
+            <h4>Phonebook is empty</h4>
           )}
-          {!emptyContacts.length && <h4>Phonebook is empty</h4>}
         </div>
-      </>
+      </Container>
     );
   }
 }
