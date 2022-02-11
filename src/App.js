@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import Contacts from './componets/Contacts';
-import Form from './componets/Form';
+import ContactsList from './componets/ContactsList';
+import ContactForm from './componets/ContactForm';
+import Filter from './componets/Filter';
 import s from './App.module.css';
 import shortid from 'shortid';
 
@@ -31,19 +32,25 @@ class App extends Component {
       contacts: prevState.contacts.filter(contact => contact.id !== id),
     }));
   };
+  changeFilter = e => {
+    this.setState({ filter: e.currentTarget.value });
+  };
 
   render() {
-    const { contacts } = this.state;
+    const { contacts, filter } = this.state;
 
     return (
       <>
         <h1 className={s.text}>Phonebook</h1>
-        <Form onSubmit={this.formSubmitHandler} />
+        <ContactForm onSubmit={this.formSubmitHandler} />
 
         <div>
           <h3>Contacts</h3>
-          <input type="text"></input>
-          <Contacts contacts={contacts} onDeleteContact={this.deliteContact} />
+          <Filter value={filter} onChange={this.changeFilter} />
+          <ContactsList
+            contacts={contacts}
+            onDeleteContact={this.deliteContact}
+          />
         </div>
       </>
     );
