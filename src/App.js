@@ -15,8 +15,6 @@ class App extends Component {
     filter: '',
   };
 
-  nameInputId = shortid.generate();
-
   formSubmitHandler = ({ name, number }) => {
     const newContact = {
       id: shortid.generate(),
@@ -30,7 +28,7 @@ class App extends Component {
 
   deliteContact = id => {
     this.setState(prevState => ({
-      contact: prevState.contacts.filter(contact => contact.id !== id),
+      contacts: prevState.contacts.filter(contact => contact.id !== id),
     }));
   };
 
